@@ -37,6 +37,13 @@ jobs:
       - name: Build and Test with Maven
         run: mvn clean verify
 
+      - name: Verify JaCoCo Report exists
+        run: |
+          echo "=== Checking JaCoCo Report ==="
+          ls -la target/site/jacoco/
+          echo "=== JaCoCo XML Preview ==="
+          head -20 target/site/jacoco/jacoco.xml
+
       - name: Upload JaCoCo Coverage Report
         uses: actions/upload-artifact@v4
         with:
@@ -70,6 +77,13 @@ jobs:
 
       - name: Run tests with coverage
         run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadless --code-coverage
+
+      - name: Verify Frontend Coverage exists
+        run: |
+          echo "=== Checking Frontend Coverage ==="
+          ls -la coverage/bobapp/
+          echo "=== LCOV Preview ==="
+          head -30 coverage/bobapp/lcov.info
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
