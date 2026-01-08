@@ -15,6 +15,7 @@
 	<description>L'application de joke par excellence !</description>
 	<properties>
 		<java.version>11</java.version>
+		<skipCheckstyle>false</skipCheckstyle>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -34,11 +35,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<!-- Checkstyle : Vérification du style Allman -->
+			<!-- Checkstyle : Vérification du style Allman (uniquement en CI, pas pendant le build Docker) -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
@@ -48,6 +45,7 @@
 					<consoleOutput>true</consoleOutput>
 					<failsOnError>true</failsOnError>
 					<violationSeverity>error</violationSeverity>
+					<skip>${skipCheckstyle}</skip>
 				</configuration>
 				<executions>
 					<execution>
