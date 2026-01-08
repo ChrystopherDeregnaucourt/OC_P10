@@ -1,38 +1,51 @@
-apiVersion: apps/v1
-kind: Deployment
+# ==============================================================================
+# DEPLOYMENT - Backend (Spring Boot)
+# ==============================================================================
+# Un Deployment gère le cycle de vie des Pods (création, mise à jour, scaling)
+# ==============================================================================
+apiVersion: apps/v1                    # Version de l'API Kubernetes utilisée
+kind: Deployment                       # Type de ressource : Deployment
 metadata:
-  name: bobapp-back
+  name: bobapp-back                    # Nom unique du déploiement
   labels:
-    app: bobapp-back
+    app: bobapp-back                   # Labels pour identifier/filtrer cette ressource
 spec:
-  replicas: 1
+  replicas: 1                          # Nombre d'instances (pods) à maintenir
   selector:
     matchLabels:
-      app: bobapp-back
-  template:
+      app: bobapp-back                 # Sélectionne les pods avec ce label
+  template:                            # Template pour créer les pods
     metadata:
       labels:
-        app: bobapp-back
+        app: bobapp-back               # Labels appliqués aux pods créés
     spec:
       containers:
-        - name: bobapp-back
-          image: chrysnullptr/bobapp-back:latest
+        - name: bobapp-back            # Nom du conteneur dans le pod
+          image: chrysnullptr/bobapp-back:latest  # Image Docker à utiliser
           ports:
-            - containerPort: 8080
+            - containerPort: 8080      # Port exposé par le conteneur
           resources:
             limits:
-              memory: "512Mi"
-              cpu: "500m"
+              memory: "512Mi"          # Limite max de RAM (512 Mo)
+              cpu: "500m"              # Limite max de CPU (0.5 core)
+
 ---
-apiVersion: v1
-kind: Service
+# ==============================================================================
+# SERVICE - Backend
+# ==============================================================================
+# Un Service expose les pods et permet la communication réseau
+# ==============================================================================
+apiVersion: v1                         # Version de l'API Kubernetes
+kind: Service                          # Type de ressource : Service
 metadata:
-  name: bobapp-back
+  name: bobapp-back                    # Nom du service
 spec:
-  type: NodePort
+  type: NodePort                       # Type: expose le service sur un port du node
+                                       # (accessible depuis localhost en local)
   selector:
-    app: bobapp-back
+    app: bobapp-back                   # Cible les pods avec ce label
   ports:
-    - port: 8080
-      targetPort: 8080
-      nodePort: 30080
+    - port: 8080                       # Port du service (interne au cluster)
+      targetPort: 8080                 # Port du conteneur cible
+      nodePort: 30080                  # Port externe (accessible via localhost:30080)
+

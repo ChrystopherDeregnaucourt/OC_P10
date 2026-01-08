@@ -1,38 +1,51 @@
-apiVersion: apps/v1
-kind: Deployment
+# ==============================================================================
+# DEPLOYMENT - Frontend (Angular + Nginx)
+# ==============================================================================
+# Un Deployment gère le cycle de vie des Pods (création, mise à jour, scaling)
+# ==============================================================================
+apiVersion: apps/v1                    # Version de l'API Kubernetes utilisée
+kind: Deployment                       # Type de ressource : Deployment
 metadata:
-  name: bobapp-front
+  name: bobapp-front                   # Nom unique du déploiement
   labels:
-    app: bobapp-front
+    app: bobapp-front                  # Labels pour identifier/filtrer cette ressource
 spec:
-  replicas: 1
+  replicas: 1                          # Nombre d'instances (pods) à maintenir
   selector:
     matchLabels:
-      app: bobapp-front
-  template:
+      app: bobapp-front                # Sélectionne les pods avec ce label
+  template:                            # Template pour créer les pods
     metadata:
       labels:
-        app: bobapp-front
+        app: bobapp-front              # Labels appliqués aux pods créés
     spec:
       containers:
-        - name: bobapp-front
-          image: chrysnullptr/bobapp-front:latest
+        - name: bobapp-front           # Nom du conteneur dans le pod
+          image: chrysnullptr/bobapp-front:latest  # Image Docker à utiliser
           ports:
-            - containerPort: 80
+            - containerPort: 80        # Port exposé par Nginx
           resources:
             limits:
-              memory: "256Mi"
-              cpu: "250m"
+              memory: "256Mi"          # Limite max de RAM (256 Mo)
+              cpu: "250m"              # Limite max de CPU (0.25 core)
+
 ---
-apiVersion: v1
-kind: Service
+# ==============================================================================
+# SERVICE - Frontend
+# ==============================================================================
+# Un Service expose les pods et permet la communication réseau
+# ==============================================================================
+apiVersion: v1                         # Version de l'API Kubernetes
+kind: Service                          # Type de ressource : Service
 metadata:
-  name: bobapp-front
+  name: bobapp-front                   # Nom du service
 spec:
-  type: NodePort
+  type: NodePort                       # Type: expose le service sur un port du node
+                                       # (accessible depuis localhost en local)
   selector:
-    app: bobapp-front
+    app: bobapp-front                  # Cible les pods avec ce label
   ports:
-    - port: 80
-      targetPort: 80
-      nodePort: 30000
+    - port: 80                         # Port du service (interne au cluster)
+      targetPort: 80                   # Port du conteneur cible (Nginx)
+      nodePort: 30000                  # Port externe (accessible via localhost:30000)
+
