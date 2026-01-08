@@ -1,0 +1,32 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    // Style Allman : accolade ouvrante sur sa propre ligne
+    "brace-style": ["error", "allman", { "allowSingleLine": false }],
+    "@typescript-eslint/brace-style": ["error", "allman", { "allowSingleLine": false }],
+    
+    // Indentation de 2 espaces
+    "indent": ["error", 2],
+    "@typescript-eslint/indent": ["error", 2],
+    
+    // Autres règles de style
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"]
+  },
+  "env": {
+    "browser": true,
+    "es2020": true,
+    "jasmine": true
+  },
+  "ignorePatterns": ["node_modules/", "dist/", "coverage/"]
+}

@@ -9,16 +9,19 @@ import com.openclassrooms.bobapp.service.JokeService;
 
 @RestController
 @RequestMapping("api/joke")
-public class JokeController {
+public class JokeController
+{
 
     private final JokeService jokeService;
 
-    JokeController(JokeService jokeService) {
+    JokeController(JokeService jokeService)
+    {
         this.jokeService = jokeService;
     }
 
     @GetMapping()
-    public ResponseEntity<?> getRandomJokes() {
+    public ResponseEntity<?> getRandomJokes()
+    {
         return ResponseEntity.ok(this.jokeService.getRandomJoke());
     }
 }
