@@ -1,0 +1,16 @@
+services:
+  backend:
+    image: ${DOCKERHUB_USERNAME:-votre-username}/bobapp-back:latest
+    container_name: bobapp-back
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  frontend:
+    image: ${DOCKERHUB_USERNAME:-votre-username}/bobapp-front:latest
+    container_name: bobapp-front
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
