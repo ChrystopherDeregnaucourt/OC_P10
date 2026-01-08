@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bobapp-front
+  labels:
+    app: bobapp-front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bobapp-front
+  template:
+    metadata:
+      labels:
+        app: bobapp-front
+    spec:
+      containers:
+        - name: bobapp-front
+          image: chrysnullptr/bobapp-front:latest
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bobapp-front
+spec:
+  type: NodePort
+  selector:
+    app: bobapp-front
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30000
