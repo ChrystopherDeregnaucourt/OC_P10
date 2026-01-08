@@ -9,15 +9,18 @@ import com.openclassrooms.bobapp.data.JsonReader;
 import com.openclassrooms.bobapp.model.Joke;
 
 @Service
-public class JokeService {
+public class JokeService
+{
     
     private final JsonReader jsonReader;
 
-    JokeService(JsonReader jsonReader) {
+    JokeService(JsonReader jsonReader)
+    {
         this.jsonReader = jsonReader;
     }
 
-    public Joke getRandomJoke() {
+    public Joke getRandomJoke()
+    {
         List<Joke> jokes = this.jsonReader.getJokes();
         Random generator = new Random();
         int randomIndex = generator.nextInt(jokes.size());

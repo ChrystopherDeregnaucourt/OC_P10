@@ -10,11 +10,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-@NgModule({
-  declarations: [
+@NgModule(
+  {
+    declarations:
+  [
     AppComponent
   ],
-  imports: [
+    imports:
+  [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -24,7 +27,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatCardModule,
     MatDividerModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
+    providers: [],
+    bootstrap: [AppComponent]
+  })
+export class AppModule 
+{ }
