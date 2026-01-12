@@ -86,4 +86,38 @@ describe('AppComponent', () =>
 
     expect(app.joke$).toBeTruthy();
   });
+
+  it('constructor should initialize jokesService', () =>
+  {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    
+    // Handle HTTP requests
+    const requests = httpMock.match('api/joke');
+    requests.forEach(req => req.flush(mockJoke));
+
+    expect(app['jokesService']).toBeTruthy();
+  });
+
+  it('ngOnInit should trigger a new joke fetch during initialization', () =>
+  {
+    const fixture = TestBed.createComponent(AppComponent);
+    const jokesService = TestBed.inject(JokesService);
+
+    spyOn(jokesService, 'getRandomJoke').and.callThrough();
+
+    // Flush initial request from JokesService constructor
+    const initReq = httpMock.expectOne('api/joke');
+    initReq.flush(mockJoke);
+
+    // Trigger lifecycle hooks (ngOnInit)
+    fixture.detectChanges();
+
+    // ngOnInit should have called jokesService.getRandomJoke
+    expect(jokesService.getRandomJoke).toHaveBeenCalled();
+
+    // Flush request triggered by ngOnInit
+    const ngOnInitReq = httpMock.expectOne('api/joke');
+    ngOnInitReq.flush(mockJoke);
+  });
 });
