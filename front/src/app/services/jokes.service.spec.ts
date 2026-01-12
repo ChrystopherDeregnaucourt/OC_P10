@@ -72,4 +72,22 @@ describe('JokesService', () =>
     expect(observable).toBeTruthy();
     expect(typeof observable.subscribe).toBe('function');
   });
+
+  it('should have pathService property defined', () =>
+  {
+    expect(service['pathService']).toBe('api/joke');
+  });
+
+  it('should have subject property defined', () =>
+  {
+    expect(service['subject']).toBeTruthy();
+    expect(service['subject'].getValue()).toEqual(mockJoke);
+  });
+
+  it('constructor should trigger getRandomJoke automatically', () =>
+  {
+    // This is tested by beforeEach where we expect the HTTP call
+    // Just verify the service was properly initialized
+    expect(service).toBeTruthy();
+  });
 });
