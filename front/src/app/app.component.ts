@@ -13,7 +13,7 @@ export class AppComponent implements OnInit
 {
   public joke$: Observable<Joke | null> = this.jokesService.joke$();
 
-  constructor(private jokesService: JokesService)
+  constructor(private readonly jokesService: JokesService)
   {
   }
 
