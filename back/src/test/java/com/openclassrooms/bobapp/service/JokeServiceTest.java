@@ -82,6 +82,54 @@ class JokeServiceTest
         Joke result = jokeService.getRandomJoke();
 
         // Assert
-        assertEquals(singleJoke, result, "Devrait retourner l'unique blague disponible");
+        assertSame(singleJoke, result, "Devrait retourner l'unique blague disponible");
+    }
+
+    @Test
+    @DisplayName("Le constructeur devrait initialiser jsonReader")
+    void constructor_ShouldInitializeJsonReader()
+    {
+        // Arrange & Act
+        JokeService service = new JokeService(jsonReader);
+        List<Joke> jokes = Arrays.asList(new Joke("Test", "Response"));
+        when(jsonReader.getJokes()).thenReturn(jokes);
+
+        // Assert - vérifie que le service est fonctionnel après construction
+        assertNotNull(service, "Le service ne devrait pas être null");
+        Joke result = service.getRandomJoke();
+        assertNotNull(result, "Le service devrait pouvoir retourner une blague");
+        verify(jsonReader).getJokes();
+    }
+
+    @Test
+    @DisplayName("getRandomJoke() devrait retourner des blagues différentes avec plusieurs appels")
+    void getRandomJoke_MultipleCalls_ShouldReturnJokes()
+    {
+        // Arrange
+        List<Joke> jokes = Arrays.asList(
+            new Joke("Blague 1", "Réponse 1"),
+            new Joke("Blague 2", "Réponse 2"),
+            new Joke("Blague 3", "Réponse 3"),
+            new Joke("Blague 4", "Réponse 4"),
+            new Joke("Blague 5", "Réponse 5")
+        );
+        when(jsonReader.getJokes()).thenReturn(jokes);
+
+        // Act - appeler plusieurs fois pour exercer le générateur aléatoire
+        boolean foundDifferent = false;
+        Joke firstJoke = jokeService.getRandomJoke();
+        for (int i = 0; i < 20; i++)
+        {
+            Joke joke = jokeService.getRandomJoke();
+            if (!joke.equals(firstJoke))
+            {
+                foundDifferent = true;
+                break;
+            }
+        }
+
+        // Assert
+        assertTrue(foundDifferent || jokes.size() == 1, 
+            "Devrait pouvoir retourner différentes blagues (ou liste à 1 élément)");
     }
 }

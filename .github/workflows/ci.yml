@@ -136,9 +136,9 @@ jobs:
           name: frontend-coverage
           path: front/coverage/
 
-      - name: Build Backend for Sonar
+      - name: Build Backend and Run Tests for Sonar
         working-directory: ./back
-        run: mvn clean compile -DskipTests
+        run: mvn clean test
 
       - name: Install Frontend Dependencies
         working-directory: ./front
