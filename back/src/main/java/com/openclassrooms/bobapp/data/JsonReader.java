@@ -12,6 +12,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.bobapp.model.Joke;
 
+/**
+ * Singleton that loads jokes from JSON resource.
+ * This is a legitimate use of the Singleton pattern to ensure a single
+ * instance manages the JSON loading and parsing throughout the application.
+ */
 @Repository
 public class JsonReader
 {
@@ -32,7 +37,7 @@ public class JsonReader
 
     private static class SingletonHolder
     {
-        private final static JsonReader instance = new JsonReader();
+        private static final JsonReader instance = new JsonReader();
     }
 
     public static JsonReader getInstance()
