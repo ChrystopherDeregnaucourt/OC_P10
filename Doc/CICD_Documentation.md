@@ -24,7 +24,7 @@ Ce document décrit la mise en place complète du pipeline CI/CD pour l'applicat
 
 | Objectif | Description |
 |----------|-------------|
-| **Automatisation des tests** | Exécuter automatiquement les tests unitaires à chaque PR et push |
+| **Automatisation des tests** | Les tests unitaires et l’analyse qualité s’exécutent automatiquement à chaque Pull Request vers main, ainsi qu’à chaque push sur main via le workflow de déploiement (CD) qui appelle la CI. |
 | **Qualité du code** | Analyser le code avec SonarCloud et bloquer si le Quality Gate échoue |
 | **Couverture de code** | Générer et publier les rapports de couverture (JaCoCo + Karma) |
 | **Conteneurisation** | Builder et publier les images Docker sur Docker Hub |
@@ -107,14 +107,6 @@ Le pipeline CD se déclenche uniquement sur :
 - **Déclenchement manuel** via `workflow_dispatch` (depuis l'interface GitHub Actions)
 
 > **Garantie de qualité** : Le pipeline CD appelle d'abord le pipeline CI complet (job `ci`). Les jobs Docker (backend et frontend) ont une dépendance stricte (`needs: ci`), ce qui signifie que **les images Docker ne sont construites et publiées que si tous les tests CI passent avec succès**.
-
-### Flux de déploiement
-
-```
-Push sur main → CI complet (tests + qualité) → Si succès → Build Docker → Push Docker Hub
-                         ↓ Si échec
-                   Arrêt (pas de déploiement)
-```
 
 ### Jobs du pipeline CD
 
@@ -264,7 +256,7 @@ Cette section analyse les retours terrain réels des utilisateurs de BobApp et e
 
 Les retours utilisateurs révèlent une insatisfaction importante, avec des exemples concrets de dysfonctionnements critiques.
 
-![Retours utilisateurs BobApp](notes_avis_bobapp.png)
+![alt text](image.png)
 
 ---
 
